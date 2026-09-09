@@ -15807,7 +15807,7 @@ function reportGithub(diagnostics, dialectIds) {
   }
   const errors = diagnostics.filter((d) => d.severity === "error").length;
   out.push(
-    `askl \xB7 dialects: ${dialectIds.join(", ")} \xB7 ${errors} errors, ${diagnostics.length - errors} warnings`
+    `avocetta \xB7 dialects: ${dialectIds.join(", ")} \xB7 ${errors} errors, ${diagnostics.length - errors} warnings`
   );
   return out.join("\n");
 }
@@ -15837,8 +15837,8 @@ function reportSarif(diagnostics, version) {
         {
           tool: {
             driver: {
-              name: "askl",
-              informationUri: "https://github.com/korya/askl",
+              name: "avocetta",
+              informationUri: "https://github.com/korya/avocetta",
               version,
               rules: ruleIds.map((id) => ({ id }))
             }
@@ -15871,7 +15871,7 @@ function reportSarif(diagnostics, version) {
 var import_picocolors = __toESM(require_picocolors(), 1);
 function reportText(diagnostics, dialectIds) {
   const out = [];
-  out.push(`askl \xB7 dialects: ${dialectIds.join(", ")}`);
+  out.push(`avocetta \xB7 dialects: ${dialectIds.join(", ")}`);
   out.push("");
   let file = "";
   for (const d of diagnostics) {
@@ -15893,10 +15893,10 @@ function reportText(diagnostics, dialectIds) {
 }
 
 // src/main.ts
-var VERSION = "1.0.3";
-var HELP = `askl: a deterministic linter for agent skills and plugins
+var VERSION = "2.0.0";
+var HELP = `avocetta: a deterministic linter for agent skills and plugins
 
-Usage: askl [options] [paths...]
+Usage: avocetta [options] [paths...]
 
 Options:
   --dialect <names>   comma-separated dialects to lint against
@@ -15909,14 +15909,28 @@ Options:
   --help              show this help
 
 With no options, paths are auto-detected (skill, plugin, or marketplace) and
-linted against the spec dialects. Optional config: askl.config.json
+linted against the spec dialects. Optional config: avocetta.config.json
 with { "dialects": [...], "ignore": [...], "pedantic": true }.`;
-function loadConfig() {
+var CONFIG_FILE = "avocetta.config.json";
+var LEGACY_CONFIG_FILE = "askl.config.json";
+function readConfig(file) {
   try {
-    return JSON.parse(readFileSync3(join4(process.cwd(), "askl.config.json"), "utf8"));
+    return JSON.parse(readFileSync3(join4(process.cwd(), file), "utf8"));
   } catch {
-    return {};
+    return void 0;
   }
+}
+function loadConfig() {
+  const config = readConfig(CONFIG_FILE);
+  if (config) return config;
+  const legacy = readConfig(LEGACY_CONFIG_FILE);
+  if (legacy) {
+    console.error(
+      `warning: ${LEGACY_CONFIG_FILE} is deprecated and will be ignored in 3.0.0; rename it to ${CONFIG_FILE}`
+    );
+    return legacy;
+  }
+  return {};
 }
 function detectVendors(targets) {
   const vendors = [];
@@ -15984,6 +15998,6 @@ function main(argv) {
 try {
   process.exitCode = main(process.argv.slice(2));
 } catch (err) {
-  console.error(`askl: ${err.message}`);
+  console.error(`avocetta: ${err.message}`);
   process.exitCode = 2;
 }

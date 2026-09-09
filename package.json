@@ -1,16 +1,16 @@
 {
-  "name": "@korya/askl",
-  "version": "1.0.3",
+  "name": "avocetta",
+  "version": "2.0.0",
   "description": "Deterministic linter for agent skills and agent plugins: agentskills.io, agent-plugins.org, Claude Code, and Codex compliance.",
   "type": "module",
   "license": "MIT",
   "author": "korya",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/korya/askl.git"
+    "url": "git+https://github.com/korya/avocetta.git"
   },
-  "homepage": "https://github.com/korya/askl#readme",
-  "bugs": "https://github.com/korya/askl/issues",
+  "homepage": "https://github.com/korya/avocetta#readme",
+  "bugs": "https://github.com/korya/avocetta/issues",
   "keywords": [
     "linter",
     "agent-skills",
@@ -25,7 +25,7 @@
     "node": ">=20"
   },
   "bin": {
-    "askl": "dist/cli.js"
+    "avocetta": "dist/cli.js"
   },
   "files": [
     "dist"
@@ -48,8 +48,5 @@
     "typescript": "^7.0.2",
     "vitest": "^4.1.11",
     "yaml": "^2.8.0"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

@@ -1,4 +1,4 @@
-import { mkdtempSync } from "node:fs";
+import { cpSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -153,6 +153,31 @@ describe("use case: pre-publish audit (A5, B4, B5, B6)", () => {
     expect(r.code).toBe(0);
     expect(r.stdout).toContain("dialects: agentskills@1.0.0"); // pinned, resolved, printed
     expect(r.stdout).not.toContain("skill/body-size"); // ignored by config
+  });
+
+  it("still honors the pre-2.0 askl.config.json, and says so on stderr", () => {
+    const r = cli(["."], { cwd: fx("legacy-config-repo") });
+    expect(r.code).toBe(0);
+    expect(r.stdout).toContain("dialects: agentskills@1.0.0"); // the old file still configures
+    expect(r.stdout).not.toContain("skill/body-size");
+    expect(r.stderr).toContain("askl.config.json is deprecated");
+    expect(r.stderr).toContain("avocetta.config.json");
+  });
+
+  it("keeps machine formats clean when the legacy config warning fires", () => {
+    const r = cli(["--format", "json", "."], { cwd: fx("legacy-config-repo") });
+    expect(r.code).toBe(0);
+    expect(() => JSON.parse(r.stdout)).not.toThrow(); // the notice went to stderr
+    expect(r.stderr).toContain("deprecated");
+  });
+
+  it("prefers avocetta.config.json and stays silent when both names exist", () => {
+    const dir = mkdtempSync(join(tmpdir(), "avocetta-config-"));
+    cpSync(fx("config-repo"), dir, { recursive: true });
+    writeFileSync(join(dir, "askl.config.json"), '{"dialects": ["agent-plugins@1.0.0"]}');
+    const r = cli(["."], { cwd: dir });
+    expect(r.stdout).toContain("agentskills@1.0.0"); // the new file won
+    expect(r.stderr).not.toContain("deprecated");
   });
 
   it("lets CLI dialects override the config file", () => {
@@ -371,7 +396,7 @@ describe("bin shim (src/cli.ts)", () => {
   it("reports errors on stderr and exits 2", async () => {
     const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     expect(await runShim([fx("no/such/path")])).toBe(2);
-    expect(errSpy.mock.calls[0]?.[0]).toContain("askl:");
+    expect(errSpy.mock.calls[0]?.[0]).toContain("avocetta:");
     errSpy.mockRestore();
   });
 });

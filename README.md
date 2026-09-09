@@ -1,6 +1,6 @@
-# <img src="assets/askl.png" alt="askl mascot, an avocet" height="55"> askl [![CI](https://github.com/korya/askl/actions/workflows/ci.yml/badge.svg)](https://github.com/korya/askl/actions/workflows/ci.yml) [![Marketplace](https://img.shields.io/github/v/release/korya/askl?label=marketplace&logo=github&color=2ea44f)](https://github.com/marketplace/actions/agent-skills-lint)
+# <img src="assets/avocetta.png" alt="avocetta mascot, an avocet" height="55"> avocetta [![CI](https://github.com/korya/avocetta/actions/workflows/ci.yml/badge.svg)](https://github.com/korya/avocetta/actions/workflows/ci.yml) [![Marketplace](https://img.shields.io/github/v/release/korya/avocetta?label=marketplace&logo=github&color=2ea44f)](https://github.com/marketplace/actions/agent-skills-lint)
 
-askl is a deterministic linter for [agent skills](https://agentskills.io/specification)
+avocetta is a deterministic linter for [agent skills](https://agentskills.io/specification)
 and [agent plugins](https://agent-plugins.org/). It verifies compliance with the open
 specs and with what specific runtimes (Claude Code, Codex) actually enforce, so you
 catch incompatibilities in CI before your users do.
@@ -17,14 +17,14 @@ works without a config file.
 - Vendor rules backed by verified runtime behavior, with sources cited in every dialect
   file
 - Text, JSON, SARIF, and GitHub-annotation output
-- A zero-config GitHub Action and an installation-free CLI (`npx @korya/askl`)
+- A zero-config GitHub Action and an installation-free CLI (`npx avocetta`)
 
-<img src="assets/askl-in-action.png" alt="The askl avocet picking bugs out of a pile of broken files, with a tidy plugin tree on the other bank" width="100%">
+<img src="assets/avocetta-in-action.png" alt="The avocetta picking bugs out of a pile of broken files, with a tidy plugin tree on the other bank" width="100%">
 
 ## GitHub Action
 
 ```yaml
-- uses: korya/askl@v1
+- uses: korya/avocetta@v2
 ```
 
 That's it. The action detects what your repo is (a skill, a plugin, a marketplace of
@@ -35,7 +35,7 @@ job on errors.
 Optional inputs mirror the CLI flags:
 
 ```yaml
-- uses: korya/askl@v1
+- uses: korya/avocetta@v2
   with:
     path: plugins/my-plugin
     dialect: spec,claude,codex   # pin targets explicitly
@@ -46,8 +46,8 @@ Optional inputs mirror the CLI flags:
 ## CLI
 
 ```console
-$ npx @korya/askl
-askl · dialects: agentskills@1.0.0, agent-plugins@1.0.0, claude-code@2026-09
+$ npx avocetta
+avocetta · dialects: agentskills@1.0.0, agent-plugins@1.0.0, claude-code@2026-09
 
 skills/examine/SKILL.md
   ✖ [agentskills@1.0.0, claude-code@2026-09] skill/frontmatter-schema  frontmatter is not valid YAML: Nested mappings are not allowed in compact mappings (3:14)
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: korya/askl@v1
+      - uses: korya/avocetta@v2
 ```
 
 Violations show up as inline annotations on the PR diff; the job fails on errors and
@@ -88,8 +88,8 @@ passes on warnings (add `strict: "true"` to fail on warnings too).
 ### Local check while writing a skill
 
 ```console
-$ npx @korya/askl skills/my-skill
-askl · dialects: agentskills@1.0.0, agent-plugins@1.0.0
+$ npx avocetta skills/my-skill
+avocetta · dialects: agentskills@1.0.0, agent-plugins@1.0.0
 
 skills/my-skill/SKILL.md
   ✖ [agentskills@1.0.0] skill/name-format  name `My_Skill` is invalid: only lowercase letters, digits and single hyphens are allowed (2:7)
@@ -97,14 +97,14 @@ skills/my-skill/SKILL.md
 1 error · 0 warnings
 ```
 
-askl works on any target shape: a single `SKILL.md`, a directory of skills, a plugin,
+avocetta works on any target shape: a single `SKILL.md`, a directory of skills, a plugin,
 or a whole marketplace repo. Detection is automatic.
 
 ### Cross-runtime compatibility: "I built this for Claude Code. Will Codex take it?"
 
 ```console
-$ npx @korya/askl --dialect claude,codex .
-askl · dialects: claude-code@2026-09, codex@2026-09
+$ npx avocetta --dialect claude,codex .
+avocetta · dialects: claude-code@2026-09, codex@2026-09
 
 skills/easy-speak/SKILL.md
   ⚠ [codex@2026-09] codex/skill-body-budget  SKILL.md is 11913 bytes, and Codex silently truncates skill contents at 8000 bytes on activation; instructions past the cut are lost
@@ -123,7 +123,7 @@ When layouts genuinely diverge, the union run tells you how to satisfy both side
 ### Pre-publish audit before listing in a marketplace
 
 ```console
-$ npx @korya/askl --strict --pedantic .
+$ npx avocetta --strict --pedantic .
 ```
 
 `--strict` turns every silent degradation (truncated descriptions, oversized bodies)
@@ -138,14 +138,14 @@ have drifted from their plugin originals.
 }
 ```
 
-With `askl.config.json` committed, a linter update can never redden your pipeline:
+With `avocetta.config.json` committed, a linter update can never redden your pipeline:
 released dialect versions are frozen, and unpinned runs always print which versions
 they resolved to.
 
 ### SARIF into GitHub code scanning
 
 ```yaml
-      - run: npx @korya/askl --format sarif . > results.sarif
+      - run: npx avocetta --format sarif . > results.sarif
       - uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif
@@ -164,7 +164,7 @@ data file:
 | `codex@2026-09` | SKILL.md ≤ 8000 **bytes** (silently truncated on activation above that), description truncation at 1024 chars, skills-listing budget, `.agents/skills` sync (pedantic) |
 
 Vendor facts are verified against the runtime source and live behavior, and cited in
-each dialect file. Released dialect versions are frozen; pin them in `askl.config.json`
+each dialect file. Released dialect versions are frozen; pin them in `avocetta.config.json`
 and results never change under you:
 
 ```json

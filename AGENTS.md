@@ -1,4 +1,4 @@
-# askl — contributor guide
+# avocetta — contributor guide
 
 Deterministic linter for agent skills and plugins. What it must do:
 [docs/product.md](docs/product.md) (requirements have stable IDs — cite them).
@@ -49,7 +49,7 @@ fixtures, never edits to the old ones.
 data entry + synthetic fixture(s) + e2e test through the CLI + (if the rule has
 parameter edges no fixture can reach) a unit test — and coverage still at 100%.
 
-**Changelog (hard policy).** Any change that alters what askl flags — a new or
+**Changelog (hard policy).** Any change that alters what avocetta flags — a new or
 removed rule, a changed severity or default, an updated vendor fact, a change to
 the CLI or Action surface — adds an entry under `## [Unreleased]` in
 [CHANGELOG.md](CHANGELOG.md) in the same PR. Consumers pin the floating `@v1`
@@ -82,7 +82,7 @@ Push a tag; `.github/workflows/release.yml` does the rest, deterministically.
 2. Bump the version in **both** `package.json` and `src/main.ts`; they must
    agree with the tag or the workflow refuses to release.
 3. `npm run check && npm run build`, then commit (`dist/` is committed).
-4. `git tag -a vX.Y.Z -m "askl X.Y.Z" && git push && git push --tags`.
+4. `git tag -a vX.Y.Z -m "avocetta X.Y.Z" && git push && git push --tags`.
 
 The workflow verifies the tag against both version sources, requires a non-empty
 changelog section, runs the full gate, rebuilds and diffs `dist/`, and only then

@@ -107,7 +107,7 @@ this is the map):
 
 ### `fixtures/config-repo/`
 
-`askl.config.json` (pinned dialect, ignore list, pedantic) plus an over-long skill the
+`avocetta.config.json` (pinned dialect, ignore list, pedantic) plus an over-long skill the
 ignore list silences — the config-behavior cases (A5, B6).
 
 ### `fixtures/real/` — frozen first-user copies

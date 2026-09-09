@@ -10,11 +10,11 @@ import { reportJson } from "./reporters/json.js";
 import { reportSarif } from "./reporters/sarif.js";
 import { reportText } from "./reporters/text.js";
 
-const VERSION = "1.0.3";
+const VERSION = "2.0.0";
 
-const HELP = `askl: a deterministic linter for agent skills and plugins
+const HELP = `avocetta: a deterministic linter for agent skills and plugins
 
-Usage: askl [options] [paths...]
+Usage: avocetta [options] [paths...]
 
 Options:
   --dialect <names>   comma-separated dialects to lint against
@@ -27,7 +27,7 @@ Options:
   --help              show this help
 
 With no options, paths are auto-detected (skill, plugin, or marketplace) and
-linted against the spec dialects. Optional config: askl.config.json
+linted against the spec dialects. Optional config: avocetta.config.json
 with { "dialects": [...], "ignore": [...], "pedantic": true }.`;
 
 interface Config {
@@ -36,12 +36,33 @@ interface Config {
   pedantic?: boolean;
 }
 
-function loadConfig(): Config {
+const CONFIG_FILE = "avocetta.config.json";
+/** Pre-2.0 name. Honored for now: silently dropping a CI gate's ignore list is worse
+ *  than carrying one extra read. Removed in 3.0.0. */
+const LEGACY_CONFIG_FILE = "askl.config.json";
+
+function readConfig(file: string): Config | undefined {
   try {
-    return JSON.parse(readFileSync(join(process.cwd(), "askl.config.json"), "utf8"));
+    return JSON.parse(readFileSync(join(process.cwd(), file), "utf8"));
   } catch {
-    return {};
+    return undefined;
   }
+}
+
+function loadConfig(): Config {
+  const config = readConfig(CONFIG_FILE);
+  if (config) return config;
+  const legacy = readConfig(LEGACY_CONFIG_FILE);
+  if (legacy) {
+    // stderr, not a diagnostic: json/sarif stdout stays parseable, and --strict
+    // cannot turn a rename notice into a red build.
+    console.error(
+      `warning: ${LEGACY_CONFIG_FILE} is deprecated and will be ignored in 3.0.0; ` +
+        `rename it to ${CONFIG_FILE}`,
+    );
+    return legacy;
+  }
+  return {};
 }
 
 /** Vendor dialects join the default run when their layout is present in the targets. */

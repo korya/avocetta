@@ -21,7 +21,7 @@ export function reportGithub(diagnostics: Diagnostic[], dialectIds: string[]): s
   }
   const errors = diagnostics.filter((d) => d.severity === "error").length;
   out.push(
-    `askl · dialects: ${dialectIds.join(", ")} · ` +
+    `avocetta · dialects: ${dialectIds.join(", ")} · ` +
       `${errors} errors, ${diagnostics.length - errors} warnings`,
   );
   return out.join("\n");
