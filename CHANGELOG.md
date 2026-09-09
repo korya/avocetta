@@ -12,6 +12,18 @@ The evidence behind each vendor fact lives in [docs/dialects.md](docs/dialects.m
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-09-09
+
+No change to any diagnostic, and none to how the Action is used.
+
+### Fixed
+
+- The Action declared `name: avocetta`, which GitHub Marketplace refuses: an Action's
+  name must be unique across every action, user, and organization on GitHub, and the
+  user account `Avocetta` has existed since 2023. It is now `Avocetta Lint`. This is a
+  Marketplace display name only. Consumers still write `korya/avocetta@v2`, and the
+  binary, the npm package, and the repository are unchanged.
+
 ## [2.0.0] - 2026-09-09
 
 No change to any diagnostic: the same inputs produce the same findings and exit codes
@@ -132,7 +144,8 @@ surface, the CLI flags, the Action inputs, and the config schema.
 - Output formats: text, JSON, SARIF, and GitHub annotations.
 - A zero-config GitHub Action and an installation-free CLI.
 
-[unreleased]: https://github.com/korya/avocetta/compare/v2.0.0...HEAD
+[unreleased]: https://github.com/korya/avocetta/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/korya/avocetta/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/korya/avocetta/compare/v1.0.3...v2.0.0
 [1.0.3]: https://github.com/korya/avocetta/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/korya/avocetta/compare/v1.0.1...v1.0.2
