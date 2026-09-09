@@ -1,4 +1,4 @@
-# askl — Architecture
+# avocetta — Architecture
 
 Companion to [product.md](product.md); requirement IDs (`[A3]`, `[B7]`, …) refer to it.
 
@@ -167,7 +167,7 @@ One command; the target detector decides the path (SKILL.md at root → skill li
 `plugin.json` / `.claude-plugin/` → plugin linting, which fans out per skill):
 
 ```
-askl [paths...]               # zero-config: spec + detected vendor dialects
+avocetta [paths...]               # zero-config: spec + detected vendor dialects
   --dialect claude,codex      # narrow or pin the target set (accepts name@version)
   --strict                    # warnings become errors
   --pedantic                  # enable the opinion tier
@@ -179,7 +179,7 @@ spec dialects always run. The optional config file has two jobs — CI reproduci
 suppression — and is capped at five keys by policy `[B6]`:
 
 ```jsonc
-// askl.config.json
+// avocetta.config.json
 {
   "dialects": ["claude@2026-09", "codex@2026-09"],
   "ignore": ["plugin/version-missing"],   // rule ids, optionally "rule@path"
@@ -187,7 +187,7 @@ suppression — and is capped at five keys by policy `[B6]`:
 }
 ```
 
-Distribution: published to npm, so `npx askl` covers the ad-hoc local use
+Distribution: published to npm, so `npx avocetta` covers the ad-hoc local use
 case with no prior installation. The GitHub Action is the same binary with defaults
 turned up: no inputs → detection,
 SARIF-based PR annotations, fail on errors. Every CLI flag maps to an Action input of
@@ -220,7 +220,7 @@ The modularity claim, stated as procedures:
 ## Repository layout
 
 ```
-askl/
+avocetta/
 ├── src/
 │   ├── engine/            # detect, parse once, run dialects, collect
 │   ├── rules/             # skill/* · plugin/* · conflict/* · vendor-only

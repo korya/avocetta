@@ -3,7 +3,7 @@ import type { Diagnostic } from "../diagnostic.js";
 
 export function reportText(diagnostics: Diagnostic[], dialectIds: string[]): string {
   const out: string[] = [];
-  out.push(`askl · dialects: ${dialectIds.join(", ")}`);
+  out.push(`avocetta · dialects: ${dialectIds.join(", ")}`);
   out.push("");
 
   let file = "";

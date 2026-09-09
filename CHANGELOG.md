@@ -5,12 +5,33 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-Because Action consumers pin the floating `korya/askl@v1` tag, changes to what askl
-flags reach their pipelines automatically. Entries lead with those: a new rule, a
+Because Action consumers pin the floating `korya/avocetta@v2` tag, changes to what
+avocetta flags reach their pipelines automatically. Entries lead with those: a new rule, a
 changed severity, or an updated vendor fact. Changes that alter no diagnostic say so.
 The evidence behind each vendor fact lives in [docs/dialects.md](docs/dialects.md).
 
 ## [Unreleased]
+
+## [2.0.0] - 2026-09-09
+
+No change to any diagnostic: the same inputs produce the same findings and exit codes
+as 1.0.3.
+
+### Changed
+
+- Renamed from `askl` to **avocetta**: repo `korya/avocetta`, npm `avocetta`
+  (unscoped, replacing `@korya/askl`), binary `avocetta`, config
+  `avocetta.config.json`. The mascot was already an avocet; the name now agrees
+  with it.
+- Action consumers move from `korya/askl@v1` to `korya/avocetta@v2`. GitHub
+  redirects the old path, so `korya/askl@v1` keeps working, but `v1` is frozen at
+  1.0.4 and receives no further dialect or rule updates.
+
+### Deprecated
+
+- `askl.config.json` is still read when `avocetta.config.json` is absent, and
+  prints a notice on stderr saying so. Silently dropping a CI gate's ignore list
+  would be worse than one extra read. It will be ignored in 3.0.0.
 
 ## [1.0.3] - 2026-09-02
 
@@ -111,12 +132,13 @@ surface, the CLI flags, the Action inputs, and the config schema.
 - Output formats: text, JSON, SARIF, and GitHub annotations.
 - A zero-config GitHub Action and an installation-free CLI.
 
-[unreleased]: https://github.com/korya/askl/compare/v1.0.3...HEAD
-[1.0.3]: https://github.com/korya/askl/compare/v1.0.2...v1.0.3
-[1.0.2]: https://github.com/korya/askl/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/korya/askl/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/korya/askl/compare/v0.3.0...v1.0.0
-[0.3.0]: https://github.com/korya/askl/compare/v0.2.1...v0.3.0
-[0.2.1]: https://github.com/korya/askl/compare/v0.2.0...v0.2.1
-[0.2.0]: https://github.com/korya/askl/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/korya/askl/releases/tag/v0.1.0
+[unreleased]: https://github.com/korya/avocetta/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/korya/avocetta/compare/v1.0.3...v2.0.0
+[1.0.3]: https://github.com/korya/avocetta/compare/v1.0.2...v1.0.3
+[1.0.2]: https://github.com/korya/avocetta/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/korya/avocetta/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/korya/avocetta/compare/v0.3.0...v1.0.0
+[0.3.0]: https://github.com/korya/avocetta/compare/v0.2.1...v0.3.0
+[0.2.1]: https://github.com/korya/avocetta/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/korya/avocetta/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/korya/avocetta/releases/tag/v0.1.0

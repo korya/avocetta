@@ -26,7 +26,7 @@ function run(script: string, args: string[]): Run {
 }
 
 const fixtureChangelog = (body: string): string => {
-  const dir = mkdtempSync(join(tmpdir(), "askl-changelog-"));
+  const dir = mkdtempSync(join(tmpdir(), "avocetta-changelog-"));
   const path = join(dir, "CHANGELOG.md");
   writeFileSync(path, body);
   return path;
@@ -44,7 +44,7 @@ describe("changelog-section.mjs", () => {
     const r = run("changelog-section.mjs", ["0.1.0"]);
     expect(r.code).toBe(0);
     expect(r.stdout).toContain("Four compliance dialects");
-    expect(r.stdout).not.toContain("https://github.com/korya/askl/compare");
+    expect(r.stdout).not.toContain("https://github.com/korya/avocetta/compare");
   });
 
   it("fails on a version with no section", () => {
