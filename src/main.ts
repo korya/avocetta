@@ -10,7 +10,7 @@ import { reportJson } from "./reporters/json.js";
 import { reportSarif } from "./reporters/sarif.js";
 import { reportText } from "./reporters/text.js";
 
-const VERSION = "1.0.3";
+const VERSION = "1.0.4";
 
 const HELP = `askl: a deterministic linter for agent skills and plugins
 
@@ -57,7 +57,31 @@ function detectVendors(targets: ReturnType<typeof detectTargets>): string[] {
   return vendors;
 }
 
+/** askl is now avocetta. This is the last 1.x release: `v1` is frozen here and gets no
+ *  further rules or vendor facts, so every remaining consumer has to hear about it.
+ *  stderr, never stdout, so json and sarif output stays parseable and exit codes hold. */
+function announceRename(): void {
+  const lines = [
+    "askl is now avocetta, and @korya/askl will not be updated again.",
+    "  npx avocetta          (was: npx @korya/askl)",
+    "  korya/avocetta@v2     (was: korya/askl@v1)",
+    "  https://github.com/korya/avocetta",
+  ];
+  // Inside Actions a plain stderr line is buried in the log; an annotation is not.
+  // Annotations are single-line, so the aligned block above would collapse into a
+  // ragged run of spaces; say it as one sentence instead.
+  if (process.env.GITHUB_ACTIONS === "true") {
+    console.error(
+      "::warning::askl is now avocetta, and @korya/askl will not be updated again. " +
+        "Switch to korya/avocetta@v2, or npx avocetta. See https://github.com/korya/avocetta",
+    );
+  } else {
+    console.error(lines.join("\n"));
+  }
+}
+
 export function main(argv: string[]): number {
+  announceRename();
   const { values, positionals } = parseArgs({
     args: argv,
     allowPositionals: true,

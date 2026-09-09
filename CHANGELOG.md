@@ -12,6 +12,21 @@ The evidence behind each vendor fact lives in [docs/dialects.md](docs/dialects.m
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-09-09
+
+The last 1.x release. No change to any diagnostic.
+
+### Deprecated
+
+- `askl` is now **avocetta**: npm `avocetta` (unscoped), binary `avocetta`, Action
+  `korya/avocetta@v2`. Every run of 1.0.4 prints a notice to stderr saying so, as a
+  GitHub Actions annotation when it runs inside Actions. `@korya/askl` receives no
+  further releases and `v1` is frozen here, so consumers who never migrate at least
+  find out why their rules stopped moving.
+- The notice goes to stderr and not through the diagnostic pipeline: `--format json`
+  and `--format sarif` stay parseable, `--strict` cannot promote it, and exit codes
+  are unchanged. Nothing here breaks a pipeline that ignores it.
+
 ## [1.0.3] - 2026-09-02
 
 No change to any diagnostic.
@@ -111,7 +126,8 @@ surface, the CLI flags, the Action inputs, and the config schema.
 - Output formats: text, JSON, SARIF, and GitHub annotations.
 - A zero-config GitHub Action and an installation-free CLI.
 
-[unreleased]: https://github.com/korya/askl/compare/v1.0.3...HEAD
+[unreleased]: https://github.com/korya/askl/compare/v1.0.4...HEAD
+[1.0.4]: https://github.com/korya/askl/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/korya/askl/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/korya/askl/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/korya/askl/compare/v1.0.0...v1.0.1

@@ -15893,7 +15893,7 @@ function reportText(diagnostics, dialectIds) {
 }
 
 // src/main.ts
-var VERSION = "1.0.3";
+var VERSION = "1.0.4";
 var HELP = `askl: a deterministic linter for agent skills and plugins
 
 Usage: askl [options] [paths...]
@@ -15929,7 +15929,23 @@ function detectVendors(targets) {
   if (anyAgentsDir || plugins.some((p) => p.codexPlugin.exists)) vendors.push("codex");
   return vendors;
 }
+function announceRename() {
+  const lines = [
+    "askl is now avocetta, and @korya/askl will not be updated again.",
+    "  npx avocetta          (was: npx @korya/askl)",
+    "  korya/avocetta@v2     (was: korya/askl@v1)",
+    "  https://github.com/korya/avocetta"
+  ];
+  if (process.env.GITHUB_ACTIONS === "true") {
+    console.error(
+      "::warning::askl is now avocetta, and @korya/askl will not be updated again. Switch to korya/avocetta@v2, or npx avocetta. See https://github.com/korya/avocetta"
+    );
+  } else {
+    console.error(lines.join("\n"));
+  }
+}
 function main(argv) {
+  announceRename();
   const { values, positionals } = parseArgs({
     args: argv,
     allowPositionals: true,

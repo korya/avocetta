@@ -147,6 +147,25 @@ describe("use case: CI gate (A4)", () => {
   });
 });
 
+describe("the 1.x rename notice", () => {
+  it("points every run at avocetta, on stderr, without touching stdout or the exit code", () => {
+    const r = cli(["--format", "json", fx("skills/valid")]);
+    expect(r.code).toBe(0);
+    expect(() => JSON.parse(r.stdout)).not.toThrow(); // the banner stayed off stdout
+    expect(r.stderr).toContain("askl is now avocetta");
+    expect(r.stderr).toContain("korya/avocetta@v2");
+    expect(r.stderr).not.toContain("::warning::");
+  });
+
+  it("becomes an annotation inside GitHub Actions, where a log line would be buried", () => {
+    vi.stubEnv("GITHUB_ACTIONS", "true");
+    const r = cli(["--format", "json", fx("skills/valid")]);
+    expect(r.stderr).toContain("::warning::askl is now avocetta");
+    expect(r.stderr).toContain("korya/avocetta@v2");
+    expect(r.stderr.split("\n").filter((l) => l.length > 0)).toHaveLength(1); // one annotation
+  });
+});
+
 describe("use case: pre-publish audit (A5, B4, B5, B6)", () => {
   it("honors the config file: pinned dialects, ignore list, pedantic", () => {
     const r = cli(["."], { cwd: fx("config-repo") });
@@ -371,7 +390,8 @@ describe("bin shim (src/cli.ts)", () => {
   it("reports errors on stderr and exits 2", async () => {
     const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     expect(await runShim([fx("no/such/path")])).toBe(2);
-    expect(errSpy.mock.calls[0]?.[0]).toContain("askl:");
+    // The rename banner also lands on stderr, so match on any call, not the first.
+    expect(errSpy.mock.calls.map((c) => String(c[0])).join("\n")).toContain("askl:");
     errSpy.mockRestore();
   });
 });
