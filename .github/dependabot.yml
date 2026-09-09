@@ -4,9 +4,16 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    # Everything is a devDependency (the published bundle is self-contained),
-    # so batch the noise: one PR for minor+patch, separate PRs only for majors.
+    # Everything is a devDependency (the published bundle is self-contained), so batch
+    # the noise: one PR for minor+patch, and majors get their own PR unless a group
+    # below claims them.
     groups:
+      # vitest and its coverage provider pin an exact peer on each other, so a major
+      # that arrives as two PRs can never merge: each half fails `npm ci` against the
+      # other. No update-types filter, so majors group too. Listed first: the first
+      # matching group wins.
+      vitest:
+        patterns: ["vitest", "@vitest/*"]
       dev-minor-and-patch:
         update-types: [minor, patch]
 
