@@ -1,4 +1,4 @@
-# <img src="assets/avocetta.png" alt="avocetta mascot, an avocet" height="55"> avocetta [![CI](https://github.com/korya/avocetta/actions/workflows/ci.yml/badge.svg)](https://github.com/korya/avocetta/actions/workflows/ci.yml) [![Marketplace](https://img.shields.io/github/v/release/korya/avocetta?label=marketplace&logo=github&color=2ea44f)](https://github.com/marketplace/actions/agent-skills-lint)
+# <img src="assets/avocetta.png" alt="avocetta mascot, an avocet" height="55"> avocetta [![CI](https://github.com/korya/avocetta/actions/workflows/ci.yml/badge.svg)](https://github.com/korya/avocetta/actions/workflows/ci.yml) [![Marketplace](https://img.shields.io/github/v/release/korya/avocetta?label=marketplace&logo=github&color=2ea44f)](https://github.com/marketplace/actions/avocetta-lint)
 
 avocetta is a deterministic linter for [agent skills](https://agentskills.io/specification)
 and [agent plugins](https://agent-plugins.org/). It verifies compliance with the open
