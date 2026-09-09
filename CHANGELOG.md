@@ -12,6 +12,14 @@ The evidence behind each vendor fact lives in [docs/dialects.md](docs/dialects.m
 
 ## [Unreleased]
 
+No change to any diagnostic.
+
+### Changed
+
+- Toolchain: vitest 5 and `@vitest/coverage-v8` 5. Neither reaches the published bundle,
+  which esbuild builds. The 100% threshold gate was re-verified under 5 by adding an
+  uncovered function and confirming all four metrics still fail the run.
+
 ## [2.0.1] - 2026-09-09
 
 No change to any diagnostic, and none to how the Action is used.
