@@ -1,6 +1,6 @@
 {
   "name": "avocetta",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Deterministic linter for agent skills and agent plugins: agentskills.io, agent-plugins.org, Claude Code, and Codex compliance.",
   "type": "module",
   "license": "MIT",

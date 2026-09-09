@@ -1,4 +1,4 @@
-name: avocetta
+name: Avocetta Lint
 description: >-
   Deterministic linter for agent skills and plugins — spec, Claude Code, and
   Codex compliance, with inline PR annotations.

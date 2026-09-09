@@ -15893,7 +15893,7 @@ function reportText(diagnostics, dialectIds) {
 }
 
 // src/main.ts
-var VERSION = "2.0.0";
+var VERSION = "2.0.1";
 var HELP = `avocetta: a deterministic linter for agent skills and plugins
 
 Usage: avocetta [options] [paths...]

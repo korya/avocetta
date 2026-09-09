@@ -10,7 +10,7 @@ import { reportJson } from "./reporters/json.js";
 import { reportSarif } from "./reporters/sarif.js";
 import { reportText } from "./reporters/text.js";
 
-const VERSION = "2.0.0";
+const VERSION = "2.0.1";
 
 const HELP = `avocetta: a deterministic linter for agent skills and plugins
 
