@@ -23,8 +23,9 @@ Grouped by the product requirement they exercise (`vitest list` prints the live 
 this is the map):
 
 - **Local check, every target shape (A1, A2)** — a skill directory, a bare `SKILL.md`
-  path, a directory of skills, a plugin with its skills, a marketplace repo (local
-  sources followed, remote skipped).
+  path, a directory of skills, a Claude Code `.claude/skills/` project (from the repo
+  root, `.claude`, or the skills directory), a plugin with its skills, a marketplace
+  repo (local sources followed, remote skipped).
 - **Cross-runtime compatibility (A3)** — vendor-dialect auto-detection from layout,
   explicit/repeated `--dialect` flags and aliases, Claude's combined
   description + `when_to_use` truncation, dual-layout conflict guidance in both
@@ -68,6 +69,10 @@ this is the map):
 
 `fixtures/skillset/` is the bare directory-of-skills shape (A2), with a stray
 `README.md` proving non-skill children are ignored.
+
+`fixtures/claude-code-project/` is a project-level Claude Code layout. Its skill is
+discovered from the repository root, `.claude`, and `.claude/skills/` without a plugin
+manifest, and the Claude Code dialect is enabled automatically.
 
 ### `fixtures/plugins/`
 

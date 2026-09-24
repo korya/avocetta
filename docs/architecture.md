@@ -163,8 +163,9 @@ results, which is why `conflict/*` is a separate pass rather than a rule.
 
 ## CLI and Action `[A4]`
 
-One command; the target detector decides the path (SKILL.md at root → skill linting;
-`plugin.json` / `.claude-plugin/` → plugin linting, which fans out per skill):
+One command; the target detector decides the path (SKILL.md at root or a
+`.claude/skills/` project layout → skill linting; `plugin.json` / `.claude-plugin/` →
+plugin linting, which fans out per skill):
 
 ```
 avocetta [paths...]               # zero-config: spec + detected vendor dialects
@@ -174,7 +175,7 @@ avocetta [paths...]               # zero-config: spec + detected vendor dialects
   --format text|json|sarif    # default: text on TTY, github annotations in Actions
 ```
 
-Zero-config detection also picks dialects: `.claude-plugin/` present enables `claude`;
+Zero-config detection also picks dialects: `.claude-plugin/` or `.claude/skills/` present enables `claude`;
 spec dialects always run. The optional config file has two jobs — CI reproducibility and
 suppression — and is capped at five keys by policy `[B6]`:
 
