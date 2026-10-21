@@ -20,6 +20,8 @@ export interface SkillDoc {
   raw: string;
   lines: number;
   bytes: number;
+  /** The vendor layout that made this skill discoverable, when known. */
+  vendor?: "claude-code";
 }
 
 export interface ManifestFile {

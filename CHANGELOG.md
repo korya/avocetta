@@ -12,7 +12,11 @@ The evidence behind each vendor fact lives in [docs/dialects.md](docs/dialects.m
 
 ## [Unreleased]
 
-No change to any diagnostic.
+### Fixed
+
+- Claude Code project skills under `.claude/skills/` are now discovered from the
+  repository root (or the `.claude` directory) and automatically linted with the
+  `claude-code` dialect. They are no longer misdiagnosed as an agent-plugins plugin.
 
 ### Changed
 
