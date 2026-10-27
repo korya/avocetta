@@ -39,8 +39,9 @@ incompatibilities in CI, before their users do.
   skill linting. A marketplace-shaped repo (a marketplace manifest whose entries point
   at plugin directories) is linted by validating the marketplace metadata and each
   referenced plugin.
-- **[A2] Skill linting.** Given a standalone skill (or a directory of skills), validate it
-  identically to a skill inside a plugin.
+- **[A2] Skill linting.** Given a standalone skill (or a directory of skills, including
+  Claude Code's `.claude/skills/` project layout), validate it identically to a skill
+  inside a plugin.
 - **[A3] Dialects.** Compliance targets are selectable and unionable: the open specs,
   Claude Code, Codex — each versioned. With no flags, the tool auto-detects sensible
   targets (specs always; vendor dialects when their layout is present).

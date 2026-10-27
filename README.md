@@ -10,8 +10,8 @@ works without a config file.
 
 - Four compliance dialects, each versioned and frozen: the agentskills.io and
   agent-plugins.org specs, Claude Code, and Codex
-- Auto-detection of what you point it at (a skill, a plugin, a marketplace repo) and of
-  which dialects your layout targets
+- Auto-detection of what you point it at (a skill, a plugin, a marketplace repo, or a
+  Claude Code `.claude/skills/` project) and of which dialects your layout targets
 - Union runs: lint against several runtimes at once, with guidance when their layouts
   seem to conflict
 - Vendor rules backed by verified runtime behavior, with sources cited in every dialect
@@ -28,9 +28,9 @@ works without a config file.
 ```
 
 That's it. The action detects what your repo is (a skill, a plugin, a marketplace of
-plugins), picks the right compliance targets (the spec dialects always; Claude Code and
-Codex when your layout shows you target them), annotates PR diffs inline, and fails the
-job on errors.
+plugins, or a Claude Code `.claude/skills/` project), picks the right compliance targets
+(the spec dialects always; Claude Code and Codex when your layout shows you target them),
+annotates PR diffs inline, and fails the job on errors.
 
 Optional inputs mirror the CLI flags:
 

@@ -80,7 +80,7 @@ export function parseFrontmatter(raw: string): Frontmatter {
   };
 }
 
-export function readSkill(dir: string): SkillDoc {
+export function readSkill(dir: string, vendor?: "claude-code"): SkillDoc {
   const path = join(dir, "SKILL.md");
   const raw = readFileSync(path, "utf8");
   return {
@@ -92,6 +92,7 @@ export function readSkill(dir: string): SkillDoc {
     raw,
     lines: raw.split("\n").length,
     bytes: Buffer.byteLength(raw, "utf8"),
+    ...(vendor === undefined ? {} : { vendor }),
   };
 }
 

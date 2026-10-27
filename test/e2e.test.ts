@@ -1,4 +1,4 @@
-import { cpSync, mkdtempSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -67,6 +67,41 @@ describe("use case: local check of every target shape (A1, A2)", () => {
     const r = cli([fx("skillset")]);
     expect(r.code).toBe(0);
     expect(r.stdout).toContain("agentskills@1.0.0");
+  });
+
+  it("lints Claude Code project skills from the repository root", () => {
+    const r = cli([fx("claude-code-project")]);
+    expect(r.code).toBe(0);
+    expect(r.stdout).toContain("claude-code@2026-09");
+    expect(r.stdout).not.toContain("plugin/manifest-location");
+  });
+
+  it("lints a direct Claude Code skills directory without a plugin diagnosis", () => {
+    const r = cli([fx("claude-code-project/.claude")]);
+    expect(r.code).toBe(0);
+    expect(r.stdout).toContain("claude-code@2026-09");
+    expect(r.stdout).not.toContain("plugin/manifest-location");
+  });
+
+  it("lints the `.claude/skills` directory itself", () => {
+    const r = cli([fx("claude-code-project/.claude/skills")]);
+    expect(r.code).toBe(0);
+    expect(r.stdout).toContain("claude-code@2026-09");
+  });
+
+  it("marks a Claude Code skill when its directory or file is passed directly", () => {
+    const dir = cli([fx("claude-code-project/.claude/skills/demo")]);
+    const file = cli([fx("claude-code-project/.claude/skills/demo/SKILL.md")]);
+    expect(dir.stdout).toContain("claude-code@2026-09");
+    expect(file.stdout).toContain("claude-code@2026-09");
+  });
+
+  it("keeps empty Claude Code layouts as an error", () => {
+    const empty = mkdtempSync(join(tmpdir(), "avocetta-claude-empty-"));
+    mkdirSync(join(empty, ".claude", "skills"), { recursive: true });
+    expect(() => cli([empty])).toThrow(/nothing to lint/);
+    expect(() => cli([join(empty, ".claude")])).toThrow(/nothing to lint/);
+    expect(() => cli([join(empty, ".claude", "skills")])).toThrow(/nothing to lint/);
   });
 
   it("lints a plugin and every skill inside it", () => {

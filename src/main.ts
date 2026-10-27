@@ -74,6 +74,7 @@ function detectVendors(targets: ReturnType<typeof detectTargets>): string[] {
   const anyMarketplace = targets.some((t) => t.kind === "marketplace");
   const anyAgentsDir = targets.some((t) => t.kind !== "skill" && t.agentsSkillsDir !== undefined);
   if (anyMarketplace || plugins.some((p) => p.claudePlugin.exists)) vendors.push("claude");
+  if (targets.some((t) => t.kind === "skill" && t.vendor === "claude-code")) vendors.push("claude");
   if (anyAgentsDir || plugins.some((p) => p.codexPlugin.exists)) vendors.push("codex");
   return vendors;
 }
